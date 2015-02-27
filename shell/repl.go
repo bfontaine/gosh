@@ -14,8 +14,15 @@ type Repl struct {
 	lastError error
 }
 
-func (r *Repl) complete(input, line string, start, end int) []string {
-	return []string{}
+var builtins = []string{"cd", "exit", "quit"}
+
+func (r *Repl) complete(input, line string, start, end int) (cmp []string) {
+	for _, builtin := range builtins {
+		if strings.HasPrefix(builtin, input) {
+			cmp = append(cmp, builtin)
+		}
+	}
+	return
 }
 
 func (r *Repl) fail(err error) {
