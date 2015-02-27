@@ -14,14 +14,20 @@ type Repl struct {
 	lastError error
 }
 
-var builtins = []string{"cd", "exit", "quit"}
+var builtins = []string{"cd", "echo", "exit", "quit"}
 
 func (r *Repl) complete(input, line string, start, end int) (cmp []string) {
+	// builtins
 	for _, builtin := range builtins {
 		if strings.HasPrefix(builtin, input) {
 			cmp = append(cmp, builtin)
 		}
 	}
+
+	// commands
+	cmpCmd, _ := completeCommand(input)
+	cmp = append(cmp, cmpCmd...)
+
 	return
 }
 
@@ -43,12 +49,15 @@ func (r *Repl) execute(line string) (exit, history bool) {
 	// try builtin commands
 	switch words[0] {
 	case "cd":
-		directory := strings.Join(words[1:], " ")
+		directory := expandPath(strings.Join(words[1:], " "))
 		if err := os.Chdir(directory); err != nil {
 			r.fail(err)
 			history = false
 			return
 		}
+	case "echo":
+		fmt.Println(os.ExpandEnv(strings.Join(words[1:], " ")))
+		return
 	case "quit":
 		fallthrough
 	case "exit":
@@ -60,13 +69,13 @@ func (r *Repl) execute(line string) (exit, history bool) {
 
 	out, err := cmd.CombinedOutput()
 
+	fmt.Print(string(out))
+
 	if err != nil {
 		r.fail(err)
 		history = false
 		return
 	}
-
-	fmt.Print(string(out))
 
 	return
 }
