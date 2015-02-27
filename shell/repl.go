@@ -2,7 +2,7 @@ package shell
 
 import (
 	"fmt"
-	"github.com/bfontaine/go-readline"
+	"github.com/fiorix/go-readline"
 	"os"
 	"os/exec"
 	"strings"
