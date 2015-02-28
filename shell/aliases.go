@@ -24,7 +24,7 @@ func (a *Aliases) parse(s string) error {
 	s = strings.TrimSpace(s)
 
 	switch i := strings.Index(s, "="); i {
-	case -1:
+	case -1, len(s) - 1:
 		return ErrNeedValue
 	case 0:
 		return ErrNeedLabel
