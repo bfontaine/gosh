@@ -13,5 +13,5 @@ notifications:
 after_success:
   - go get golang.org/x/tools/cmd/cover
   - go get github.com/mattn/goveralls
-  - go test -covermode=count -coverprofile=profile.cov ./...
-  - goveralls -coverprofile=profile.cov -service=travis-ci
+  - wget https://gist.githubusercontent.com/bfontaine/370f29e0e0a49376257a/raw/bd3b6f59616bb0062f5d230049d340d3eb6b2a40/goclean.sh
+  - bash goclean.sh
