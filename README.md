@@ -51,11 +51,13 @@ alias la=ls -la
 
 ### Options
 
-Gosh currently support the following options:
+Gosh currently supports the following options:
 
 * `-debug`: show all errors
 * `-trace`: show all lines are they are executed, both from the `~/.goshrc` and
   the interactive session
+
+Use `gosh -h` for more info.
 
 ### Editor support
 
