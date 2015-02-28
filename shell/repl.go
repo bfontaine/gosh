@@ -11,6 +11,9 @@ import (
 type Repl struct {
 	Prompt string
 
+	Debug bool
+	Trace bool
+
 	aliases   *Aliases
 	lastError error
 }
@@ -49,8 +52,18 @@ func (r *Repl) fail(err error) {
 	fmt.Printf("%v\n", err)
 }
 
+func (r *Repl) trace(line string) {
+	fmt.Printf("+ %s\n", line)
+}
+
 func (r *Repl) execute(line string) (exit, history bool) {
-	words := strings.Fields(strings.TrimSpace(line))
+	line = strings.TrimSpace(line)
+
+	if r.Trace {
+		r.trace(line)
+	}
+
+	words := strings.Fields(line)
 	wordsCount := len(words)
 
 	if wordsCount == 0 {
