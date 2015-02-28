@@ -8,7 +8,7 @@ import (
 	"testing"
 )
 
-func Test(t *testing.T) {
+func TestFiles(t *testing.T) {
 	g := goblin.Goblin(t)
 
 	g.Describe("expandPath", func() {

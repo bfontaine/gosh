@@ -7,6 +7,8 @@ import (
 	"strings"
 )
 
+// some parts of this code are copied from os/exec/lp_unix.go
+
 var MaxComplete = 10
 
 func isExecutable(f os.FileInfo) bool {
@@ -14,11 +16,12 @@ func isExecutable(f os.FileInfo) bool {
 }
 
 func completeCommand(cmdPrefix string) (cmp []string, err error) {
-	// a large portion of this code is copied from os/exec/lp_unix.go
+
+	cmp = make([]string, 0, MaxComplete)
 
 	complete := 0
 
-	if cmdPrefix == "" {
+	if cmdPrefix == "" || complete >= MaxComplete {
 		return
 	}
 
@@ -37,10 +40,10 @@ func completeCommand(cmdPrefix string) (cmp []string, err error) {
 			dir = "."
 		}
 
-		files, ok := ioutil.ReadDir(dir)
+		files, failure := ioutil.ReadDir(dir)
 
-		if ok != nil {
-			err = ok
+		if failure != nil {
+			err = failure
 			return
 		}
 
