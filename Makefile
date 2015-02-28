@@ -7,3 +7,6 @@ deps:
 
 $(TARGET): deps
 	go build .
+
+check: deps
+	go test -v ./...
