@@ -28,8 +28,10 @@ func NewRepl(prompt string) *Repl {
 var builtins = []string{"alias", "cd", "echo", "exit", "quit"}
 
 func (r *Repl) complete(input, line string, start, end int) (cmp []string) {
-	if input == "" {
-		// don't complete empty lines
+	cmp = make([]string, 0, 5) // arbitrary capacity
+
+	if input == "" || input[:1] == "#" {
+		// don't complete empty lines and comments
 		return
 	}
 
@@ -59,6 +61,11 @@ func (r *Repl) trace(line string) {
 func (r *Repl) execute(line string) (exit, history bool) {
 	line = strings.TrimSpace(line)
 
+	// don't execute empty lines or comments
+	if len(line) == 0 || strings.HasPrefix(line, "#") {
+		return
+	}
+
 	if r.Trace {
 		r.trace(line)
 	}
@@ -68,6 +75,14 @@ func (r *Repl) execute(line string) (exit, history bool) {
 
 	if wordsCount == 0 {
 		return
+	}
+
+	// stop when we encounter a comment
+	for i, word := range words {
+		if strings.HasPrefix(word, "#") {
+			words = words[:i]
+			break
+		}
 	}
 
 	history = true
