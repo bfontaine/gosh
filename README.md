@@ -1,5 +1,7 @@
 # Gosh!
 
+[![Build Status](https://travis-ci.org/bfontaine/gosh.svg?branch=master)](https://travis-ci.org/bfontaine/gosh)
+
 **Gosh** is a simple shell written in Go.
 
 ## Install
