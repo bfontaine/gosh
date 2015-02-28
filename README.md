@@ -13,6 +13,13 @@
 * Go 1.2 or higher
 * Readline
 
+## Usage
+
+    gosh
+
+You’ll get a prompt, from which you can execute commands like in every other
+shell. Use `^D` or `exit` to exit it.
+
 ## Features
 
 Just a basic REPL, right now.
