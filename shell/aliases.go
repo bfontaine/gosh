@@ -20,7 +20,7 @@ func NewAliases() *Aliases {
 	}
 }
 
-func (r *Repl) parseAlias(s string) error {
+func (a *Aliases) parse(s string) error {
 	s = strings.TrimSpace(s)
 
 	switch i := strings.Index(s, "="); i {
@@ -30,17 +30,17 @@ func (r *Repl) parseAlias(s string) error {
 		return ErrNeedLabel
 	default:
 		label, value := strings.TrimSpace(s[:i]), strings.TrimSpace(s[i+1:])
-		r.aliases.table[label] = strings.Fields(value)
+		a.table[label] = strings.Fields(value)
 	}
 
 	return nil
 }
 
-func (r *Repl) hasAlias(s string) (exists bool) {
-	_, exists = r.aliases.table[s]
+func (a *Aliases) has(s string) (exists bool) {
+	_, exists = a.table[s]
 	return
 }
 
-func (r *Repl) getAlias(s string) []string {
-	return r.aliases.table[s]
+func (a *Aliases) get(s string) []string {
+	return a.table[s]
 }

@@ -87,14 +87,14 @@ func (r *Repl) execute(line string) (exit, history bool) {
 
 	history = true
 
-	if isAlias := r.hasAlias(words[0]); isAlias {
-		words = append(r.getAlias(words[0]), words[1:]...)
+	if isAlias := r.aliases.has(words[0]); isAlias {
+		words = append(r.aliases.get(words[0]), words[1:]...)
 	}
 
 	// try builtin commands
 	switch words[0] {
 	case "alias":
-		if err := r.parseAlias(strings.Join(words[1:], " ")); err != nil {
+		if err := r.aliases.parse(strings.Join(words[1:], " ")); err != nil {
 			r.fail(err)
 			history = false
 		}
