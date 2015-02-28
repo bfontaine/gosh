@@ -15,6 +15,8 @@
 
 Just a basic REPL, right now.
 
+Gosh doesn’t support quotes, escaping and wildcards for now.
+
 ### Builtin commands
 
 * `alias L=V`: add an alias `L` to `V`. `V` can be any command, even with
