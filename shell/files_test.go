@@ -4,6 +4,7 @@ import (
 	"github.com/franela/goblin"
 	"os"
 	"runtime"
+	"strings"
 	"testing"
 )
 
@@ -13,11 +14,16 @@ func Test(t *testing.T) {
 	g.Describe("expandPath", func() {
 
 		tmp := os.TempDir()
+		slash := string(os.PathSeparator)
 
 		// On OS X, /var is a symlink to /private/var and expandPath doesn't
 		// follow symlinks.
 		if runtime.GOOS == "darwin" {
 			tmp = "/private" + tmp
+		}
+
+		if !strings.HasSuffix(tmp, slash) {
+			tmp += slash
 		}
 
 		g.BeforeEach(func() {
@@ -27,8 +33,9 @@ func Test(t *testing.T) {
 		})
 
 		g.AfterEach(func() {
-			os.Unsetenv("foo")
-			os.Unsetenv("parent")
+			// os.Unsetenv is not defined in Go <1.4
+			os.Setenv("foo", "")
+			os.Setenv("parent", "")
 		})
 
 		g.It("Should leave absolute paths as is", func() {
