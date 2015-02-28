@@ -8,3 +8,10 @@ script:
   - make check
 notifications:
   email: false
+
+# Coveralls
+after_success:
+  - go get golang.org/x/tools/cmd/cover
+  - go get github.com/mattn/goveralls
+  - go test -covermode=count -coverprofile=profile.cov
+  - goveralls -coverprofile=profile.cov -service=travis-ci
