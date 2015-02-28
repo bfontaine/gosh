@@ -25,16 +25,37 @@ shell. Use `^D` or `exit` to exit it.
 
 Just a basic REPL, right now.
 
-Gosh doesn’t support quotes, escaping and wildcards for now.
+Gosh doesn’t support quotes, escaping and wildcards, nor any loop or
+conditional constructions.
 
 ### Builtin commands
 
 * `alias L=V`: add an alias `L` to `V`. `V` can be any command, even with
-  spaces or weird characters.
+  spaces or weird characters. Aliases can’t be recursive.
 * `cd <path>`: change the current directory (can contain spaces)
 * `echo ...`: print stuff. You can insert environment variables with `$var` or
   `${var}`
 * `quit`, `exit`, `^D`: exit the shell
+
+### `~/.goshrc`
+
+If a `~/.goshrc` file exists, Gosh reads it and executes it line-by-line as if
+it were given on the prompt.
+
+You can use it for common aliases, e.g.:
+
+```sh
+alias ll=ls -l
+alias la=ls -la
+```
+
+### Options
+
+Gosh currently support the following options:
+
+* `-debug`: show all errors
+* `-trace`: show all lines are they are executed, both from the `~/.goshrc` and
+  the interactive session
 
 ### Editor support
 
