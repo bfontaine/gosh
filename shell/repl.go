@@ -11,12 +11,25 @@ import (
 type Repl struct {
 	Prompt string
 
+	aliases   *Aliases
 	lastError error
 }
 
-var builtins = []string{"cd", "echo", "exit", "quit"}
+func NewRepl(prompt string) *Repl {
+	return &Repl{
+		Prompt:  prompt,
+		aliases: NewAliases(),
+	}
+}
+
+var builtins = []string{"alias", "cd", "echo", "exit", "quit"}
 
 func (r *Repl) complete(input, line string, start, end int) (cmp []string) {
+	if input == "" {
+		// don't complete empty lines
+		return
+	}
+
 	// builtins
 	for _, builtin := range builtins {
 		if strings.HasPrefix(builtin, input) {
@@ -46,8 +59,18 @@ func (r *Repl) execute(line string) (exit, history bool) {
 
 	history = true
 
+	if isAlias := r.hasAlias(words[0]); isAlias {
+		words = append(r.getAlias(words[0]), words[1:]...)
+	}
+
 	// try builtin commands
 	switch words[0] {
+	case "alias":
+		if err := r.parseAlias(strings.Join(words[1:], " ")); err != nil {
+			r.fail(err)
+			history = false
+		}
+		return
 	case "cd":
 		directory := expandPath(strings.Join(words[1:], " "))
 		if err := os.Chdir(directory); err != nil {

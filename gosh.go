@@ -8,7 +8,7 @@ import (
 func main() {
 	flag.Parse()
 
-	repl := shell.Repl{Prompt: "$ "}
+	repl := shell.NewRepl("$ ")
 
 	repl.Loop()
 }
