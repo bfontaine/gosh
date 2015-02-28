@@ -1,6 +1,7 @@
 # Gosh!
 
 [![Build Status](https://travis-ci.org/bfontaine/gosh.svg?branch=master)](https://travis-ci.org/bfontaine/gosh)
+[![Coverage Status](https://coveralls.io/repos/bfontaine/gosh/badge.svg?branch=master)](https://coveralls.io/r/bfontaine/gosh?branch=master)
 
 **Gosh** is a simple shell written in Go.
 
