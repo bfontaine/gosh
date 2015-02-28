@@ -5,7 +5,7 @@ import (
 	"os"
 )
 
-var rc = expandPath("$HOME/.goshrc")
+var rc = expandPath("~/.goshrc")
 
 // Read ~/.goshrc and execute each line as if it were given to the REPL
 func (r *Repl) ExecuteRC() error {
