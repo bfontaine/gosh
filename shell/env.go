@@ -3,6 +3,7 @@ package shell
 import (
 	"io/ioutil"
 	"os"
+	"path/filepath"
 	"strings"
 )
 
@@ -31,7 +32,7 @@ func completeCommand(cmdPrefix string) (cmp []string, err error) {
 		return
 	}
 
-	for _, dir := range strings.Split(pathenv, ":") {
+	for _, dir := range filepath.SplitList(pathenv) {
 		if dir == "" {
 			dir = "."
 		}
