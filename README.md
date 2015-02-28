@@ -35,3 +35,7 @@ Gosh doesn’t support quotes, escaping and wildcards for now.
 * `echo ...`: print stuff. You can insert environment variables with `$var` or
   `${var}`
 * `quit`, `exit`, `^D`: exit the shell
+
+### Editor support
+
+* Vim: [vim-gosh](https://github.com/bfontaine/vim-gosh)
