@@ -100,12 +100,29 @@ func (r *Repl) execute(line string) (exit, history bool) {
 		}
 		return
 	case "cd":
-		directory := expandPath(strings.Join(words[1:], " "))
+		var currDir, rawDir string
+
+		rawDir = strings.Join(words[1:], " ")
+		if rawDir == "-" {
+			rawDir = "$OLDPWD"
+		}
+		directory := expandPath(rawDir)
+
+		currDir, err := os.Getwd()
+		if err != nil {
+			r.fail(err)
+			return
+		}
+
 		if err := os.Chdir(directory); err != nil {
 			r.fail(err)
 			history = false
 			return
 		}
+
+		os.Setenv("OLDPWD", currDir)
+		return
+
 	case "echo":
 		fmt.Println(os.ExpandEnv(strings.Join(words[1:], " ")))
 		return
