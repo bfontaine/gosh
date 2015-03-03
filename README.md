@@ -7,7 +7,7 @@
 
 ## Install
 
-    go get github.com/bfontaine/gosh
+    go install github.com/bfontaine/gosh
 
 ### Dependencies
 
